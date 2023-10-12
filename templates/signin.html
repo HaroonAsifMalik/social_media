@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign In</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="email"]
+      /* input[type="password"]  */ {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+
+      .alert {
+        background-color: #ffcccc;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #cc0000;
+        color: #cc0000;
+        border-radius: 3px;
+      }
+      a {
+        font-size: 10px;
+        text-decoration: underline;
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sign In</h1>
+
+    <form method="post" action="{% url 'signin' %}">
+      {% csrf_token %}
+
+      <!-- Display form errors if there are any -->
+      {% if form.errors %}
+      <div class="alert">
+        <strong>Error:</strong> Please correct the following errors:
+        <ul>
+          {% for error in form.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">Name:</label>
+        <input placeholder="Username" id="name" name="name" />
+        {{ form.name }}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        <input
+          type="password"
+          placeholder="********"
+          id="password1"
+          name="password1"
+        />
+        {{ form.password1 }}
+      </div>
+      <button type="submit">Sign In</button>
+      <br />
+      <a href="{% url 'signup' %}">Click here to Create Account</a>
+    </form>
+  </body>
+</html>
