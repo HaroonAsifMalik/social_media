@@ -51,3 +51,6 @@ def  Profile ( request, username ):
 
 def EditProfile(request ,username):
     return render ( request, 'users/editprofile.html')
+
+def Message ( request ):
+    return render ( request, 'users/messaging.html')
