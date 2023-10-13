@@ -7,7 +7,7 @@ urlpatterns = [
     path( '', views.SignIn , name='signin'),
     path( 'dashbord/' , views.Dashbord, name='dashbord' ),
     path( 'signup/' , views.SignUp , name='signup'),
-    path('profile/<str:username>' , views.Profile , name='profile'),    
-    path('profile/<str:username>/edit/', views.EditProfile , name='editprofile'),
+    path('profile/<str:username>' , views.Profile , name='profile'), #url with username profile/ali   
+    path('profile/<str:username>/edit/', views.EditProfile , name='editprofile'), #url with username profile/ali/edit
     path('logout' , views.LogOut , name='logout')
 ]
