@@ -19,6 +19,6 @@ urlpatterns = [
     path('profile/<str:username>/edit/', views.EditProfile , name='editprofile'),
 
     #URLs messaging apps
-    path('messages/',views.Messages , name='messages'),
-    path('messages/<str:username>',include('messaging.urls' , namespace'messaging')),
+    path('messages/',views.Allmessages , name='allmessages'),
+    path('messages/<str:username>',include('messaging.urls')),
 ]
