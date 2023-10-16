@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sign In</title>
+    <title>Social Media Home</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -43,20 +43,14 @@
     </style>
   </head>
   <body>
-    <h1>Sign In</h1>
-    <form method="post" action="{% url 'signin' %}">
-      {% csrf_token %}
-      <label for="username">Username:</label>
-      <input type="text" id="name" name="name" required /><br /><br />
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        id="password1"
-        name="password1"
-        required
-      /><br /><br />
-      <input type="submit" value="Sign In" />
-      {{error_message}}
-    </form>
+    <h1>Dashboard {{user}}</h1>
+    <div>Posts</div>
+    <div>{{post_data}}</div>
+    <div>Peoples</div>
+    <ul>
+      {% for user in users %}
+      <li>{{ user.username }}</li>
+      {% endfor %}
+    </ul>
   </body>
 </html>
