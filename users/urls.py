@@ -3,6 +3,7 @@ from django.urls import path , include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views  # ----
 
 # app_name = "users"
 urlpatterns = [
@@ -21,6 +22,17 @@ urlpatterns = [
     #URLs messaging apps
     path('messages/',views.Allmessages , name='allmessages'),
     path('messages/<str:username>',include('messaging.urls')),
+
+
+    #reset passwords URLs ------------------
+    ###This is Build-in View which is render by default --- user submit email for reset
+    path ( 'reset_password/' , auth_views.PasswordResetView.as_view(), name='reset_password'),
+    ###The email sent message
+    path('reset_password_sent/' , auth_views.PasswordResetDoneView.as_view() , name='password_reset_done'),
+    ###To show the conformation msg
+    path('reset/<uidb64>/<token>' , auth_views.PasswordResetConfirmView.as_view() , name='password_reset_confirm'),
+    
+    path( 'reset_password_complete/' , auth_views.PasswordResetCompleteView.as_view() , name="password_reset_complete" )
 ]
 
 if settings.DEBUG:

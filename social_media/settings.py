@@ -123,6 +123,16 @@ USE_I18N = True
 USE_TZ = True
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Set your SMTP server (e.g., Gmail, Yahoo, or your hosting provider's SMTP server)
+EMAIL_PORT = 587  # Set the port for your SMTP server (587 for TLS, 465 for SSL, 25 for non-secure)
+EMAIL_USE_TLS = True  # Use TLS (or set it to False if your server doesn't support TLS)
+EMAIL_USE_SSL = False  # Use SSL (or set it to True if your server requires SSL)
+EMAIL_HOST_USER = 'haroonasifmalik123@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'princeofd@rknessf5'  # Your email password
+DEFAULT_FROM_EMAIL = 'haroonasifmalik123@gmail.com'  # Default "from" address for sending emails
+SERVER_EMAIL = 'haroonasifmalik123@gmail.com'  # Server error reporting email
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -132,3 +142,4 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+

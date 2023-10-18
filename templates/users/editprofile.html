@@ -1,93 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        text-align: center;
-        padding: 20px;
-      }
-
-      h1 {
-        color: #333;
-      }
-
-      .navbar {
-        background-color: #007bff;
-        padding: 10px;
-        color: #fff;
-        text-align: center;
-      }
-      .navbar a {
-        text-decoration: none;
-        color: #fff;
-        margin: 0 10px;
-      }
-
-      .dashboard {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .post {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        margin: 10px 0;
-      }
-
-      .post-image {
-        max-width: 100%;
-      }
-
-      .post-buttons {
-        margin-top: 10px;
-      }
-
-      .post-button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-right: 10px;
-      }
-
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
-    </style>
+    <!-- ... (your head content) ... -->
   </head>
   <body>
-    <div class="navbar">
-      <a href="{% url  'logout'  %}">Logout</a>
-      <a href="{% url 'allmessages' %}">Messages</a>
-      <a href="{% url 'editprofile' %}">Edit Profile</a>
-    </div>
+    <!-- ... (your navigation bar) ... -->
     <h1>Edit profile page</h1>
     <!-- edit_profile.html -->
-    <form method="post" action="{% url 'editprofile' %}">
+    <form method="POST" action="{% url 'editprofile' %}">
       {% csrf_token %}
-      <label for="email">New Email:</label>
+      <label for="username">New Username:</label>
       <input
-        type="email"
-        id="email"
-        name="email"
-        value="{{ user.email }}"
-      /><br /><br />
-      <label for="password">New Password:</label>
-      <input type="password" id="password" name="password" /><br /><br />
+        type="text"
+        id="username"
+        name="username"
+        value="{{ user.username }}"
+      />
       <input type="submit" value="Save Changes" />
     </form>
   </body>

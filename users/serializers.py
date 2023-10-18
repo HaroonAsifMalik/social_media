@@ -7,8 +7,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
-
-        
-class EditProfileSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=False)
-    password = serializers.CharField(required=False)

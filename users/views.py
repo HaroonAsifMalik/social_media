@@ -5,8 +5,9 @@ from posts.models import Post
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 from django.http import JsonResponse
-from posts.serializers import PostSerializer
-from .serializers import UserSerializer
+from posts.serializers import PostSerializer 
+from .serializers import UserSerializer 
+from messaging.models import Conversation ,Message 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -53,8 +54,6 @@ def LogOut( request):
     logout(request)
     return redirect('signin')
 
-
-
 @api_view(['GET'])
 def current_user_profile(request):
     if request.user.is_authenticated:
@@ -68,35 +67,29 @@ def current_user_profile(request):
         return Response({"detail": "User is not authenticated."})
 
 
-# def Profile ( request, username ):
-#     print( username)
-#     posts = Post.objects.all()
-#     ps_serializer = PostSerializer(posts, many=True)
-#     return redirect (request , 'users/profile.html', {'profile_name':username})
-
-
-@api_view(['POST'])
+# @api_view(['PATCH'])
 def editprofile(request):
-    user = request.user
-
-    serializer = EditProfileSerializer(data=request.data)
-    if serializer.is_valid():
-        # Update the user's email
-        new_email = serializer.validated_data.get('email')
-        if new_email:
-            user.email = new_email
-            user.save()
-        
-        # Update the user's password
-        new_password = serializer.validated_data.get('password')
-        if new_password:
-            user.set_password(new_password)
-            user.save()
-            update_session_auth_hash(request, user)  # Update session auth hash
-
-        return Response({"detail": "Profile updated successfully."}, status=status.HTTP_200_OK)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return render(request , 'users/editprofile.html')
+#     data = request.data
+#     user = request.user  # Get the current user
+#     print(data.author)
+#     # Update the user's username
+#     if 'username' in data:
+#         user.username = data['username']
+#         user.save()
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def Allmessages(request ):
-    return render(request , 'users/messaging.html')
+    conversations = Conversation.objects.all()
+    # print ( conversations)
+    # Get unique participants' usernames
+    participant_usernames = set()
+    for conversation in conversations:
+        for participant in conversation.participants.all():
+            if participant != request.user and participant.username != 'admin' :  # Exclude the current user
+                participant_usernames.add(participant.username)
+
+    # print (participant_usernames)
+    
+    return JsonResponse(list(participant_usernames), safe=False)
