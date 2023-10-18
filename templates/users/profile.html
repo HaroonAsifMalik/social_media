@@ -4,9 +4,95 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>title</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+      }
+      h1 {
+        color: #333;
+      }
+      .navbar {
+        background-color: #007bff;
+        padding: 10px;
+        color: #fff;
+        text-align: center;
+      }
+      .navbar a {
+        text-decoration: none;
+        color: #fff;
+        margin: 0 10px;
+      }
+      .dashboard {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .post {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      .post-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
+      .post-buttons {
+        margin-top: 10px;
+      }
+      .post-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      ul {
+        list-style-type: none;
+      }
+      /* .friend_list {
+        padding: 20px;
+        float: left;
+      } */
+    </style>
   </head>
   <body>
-    <h1>User Profile</h1>
-    <h1>{{username}}</h1>
+    <div class="navbar">
+      <a href="{% url  'current_user_profile'  %}">Profile</a>
+      <a href="{% url  'logout'  %}">Logout</a>
+      <a href="{% url 'allmessages' %}">Messages</a>
+      <a href="{% url 'editprofile' %}">Edit Profile</a>
+    </div>
+    <div class="title">
+      <p>Welcome to your Profile</p>
+    </div>
+    <div class="dashboard">
+      <h2 style="text-transform: uppercase">All Posts</h2>
+      <div>
+        {% for post in post_data %}
+        <div class="post">
+          <img class="post-image" src="{{ post.image }}" alt="Post Image" />
+        </div>
+        <div class="post-buttons">
+          <button class="post-button">Like</button>
+          <button class="post-button">Share</button>
+          <button class="post-button">Comment</button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </body>
 </html>

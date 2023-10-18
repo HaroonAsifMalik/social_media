@@ -22,10 +22,11 @@
       }
       label {
         display: block;
+        float: left;
         margin-top: 10px;
       }
       input {
-        width: 100%;
+        width: 90%;
         padding: 10px;
         margin-top: 5px;
         margin-bottom: 15px;
@@ -39,6 +40,10 @@
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
+      }
+      a {
+        font-size: smaller;
+        display: block;
       }
     </style>
   </head>
@@ -55,6 +60,7 @@
       <label for="password2">Confirm Password:</label>
       <input type="password" id="password2" name="password2" required />
       <input type="submit" value="Sign Up" />
+      <a href="{% url 'signin' %}">Already have account.</a>
     </form>
   </body>
 </html>

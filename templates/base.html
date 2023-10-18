@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>{% block title %}Social Media{% endblock %}</title>
+    {% block style %}
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -20,8 +19,8 @@
         background-color: #007bff;
         padding: 10px;
         color: #fff;
-        text-align: center;
       }
+
       .navbar a {
         text-decoration: none;
         color: #fff;
@@ -68,27 +67,20 @@
         padding: 0;
       }
     </style>
+    {% endblock %}
   </head>
+
   <body>
     <div class="navbar">
-      <a href="{% url  'logout'  %}">Logout</a>
-      <a href="{% url 'allmessages' %}">Messages</a>
-      <a href="{% url 'editprofile' %}">Edit Profile</a>
+      <a href="{% url 'profile' username='profile_name' %}">Profile</a>
+      <a href="{% url 'logout' %}">Logout</a>
+      <a href="#">Messages</a>
+      <a href="#">Edit Profile</a>
     </div>
-    <h1>Edit profile page</h1>
-    <!-- edit_profile.html -->
-    <form method="post" action="{% url 'editprofile' %}">
-      {% csrf_token %}
-      <label for="email">New Email:</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value="{{ user.email }}"
-      /><br /><br />
-      <label for="password">New Password:</label>
-      <input type="password" id="password" name="password" /><br /><br />
-      <input type="submit" value="Save Changes" />
-    </form>
+    <div class="content">
+      {% block content %}
+      <!-- This is where the content of child templates will be inserted -->
+      {% endblock %}
+    </div>
   </body>
 </html>

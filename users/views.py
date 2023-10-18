@@ -6,24 +6,24 @@ from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 from django.http import JsonResponse
 from posts.serializers import PostSerializer
-# from django.contrib.auth import get_user_model
-# from django.contrib.auth.decorators  import login_required 
-
-# Create your views here.
-# @login_required(login_url = 'signin')
-
+from .serializers import UserSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 def Dashboard(request):
     posts = Post.objects.all()
-    serializer = PostSerializer(posts, many=True)
-    user= request.user
+    ps_serializer = PostSerializer(posts, many=True)
+
     User = get_user_model()
     users = User.objects.all()
-    return render(request, 'users/dashboard.html', {'post_data': serializer.data , 'user':users})
+    us_serializer = UserSerializer(users, many=True)
+
+    user = request.user  # Get the currently logged-in user
+    print ( ps_serializer)
+    return render(request, 'users/dashboard.html', {'post_data': ps_serializer.data, 'users': us_serializer.data, 'profile_name': user.username})
     
 def SignUp(request):
-    # return render (request , 'users/signup.html')
     if request.method == 'POST':
         uname = request.POST.get('username')
         email = request.POST.get('email')
@@ -37,7 +37,6 @@ def SignUp(request):
     return render(request, 'users/signup.html')
 
 def SignIn(request):
-    # return HttpResponse ( "This is sign in page")
     if request.method == 'POST':
         uname = request.POST.get('name')
         pass1 = request.POST.get('password1')
@@ -51,17 +50,53 @@ def SignIn(request):
     return render(request, 'users/signin.html')
 
 def LogOut( request):
-    return render (request , 'users/signup.html')
-    # logout(request)
-    # return redirect ('signin')
+    logout(request)
+    return redirect('signin')
 
 
-def Profile ( request, username ):
-    return render (request , 'users/profile.html')
-    # return render( f"Username: {username}" )
 
-def EditProfile(request ,username):
-    return render ( request, 'users/editprofile.html')
+@api_view(['GET'])
+def current_user_profile(request):
+    if request.user.is_authenticated:
+        u_id= request.user.id
+        user_posts = Post.objects.filter(author_id=u_id)
+        serializer = PostSerializer( user_posts, many=True)
+        print ( serializer)
+        # return Response(serializer.data)
+        return render(request , 'users/profile.html' , {'post_data':serializer.data})
+    else:
+        return Response({"detail": "User is not authenticated."})
+
+
+# def Profile ( request, username ):
+#     print( username)
+#     posts = Post.objects.all()
+#     ps_serializer = PostSerializer(posts, many=True)
+#     return redirect (request , 'users/profile.html', {'profile_name':username})
+
+
+@api_view(['POST'])
+def editprofile(request):
+    user = request.user
+
+    serializer = EditProfileSerializer(data=request.data)
+    if serializer.is_valid():
+        # Update the user's email
+        new_email = serializer.validated_data.get('email')
+        if new_email:
+            user.email = new_email
+            user.save()
+        
+        # Update the user's password
+        new_password = serializer.validated_data.get('password')
+        if new_password:
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)  # Update session auth hash
+
+        return Response({"detail": "Profile updated successfully."}, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def Allmessages(request ):
     return render(request , 'users/messaging.html')
